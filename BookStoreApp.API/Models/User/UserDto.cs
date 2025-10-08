@@ -11,6 +11,6 @@ namespace BookStoreApp.API.Models.User
         public string LastName { get; set; } = null!;
 
         [Required]
-        public string Role { get; set; } = null!;
+        public string? Role { get; set; }
     }
 }

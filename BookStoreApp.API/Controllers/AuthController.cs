@@ -41,7 +41,7 @@ namespace BookStoreApp.API.Controllers
                 user.UserName = userDto.Email;
                 var result = await userManager.CreateAsync(user, userDto.Password);
 
-                if (result.Succeeded == false)
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
