@@ -57,12 +57,12 @@ namespace BookStoreApp.Blazor.Server.UI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorReadOnlyDto> AuthorsGETAsync(int id);
+        System.Threading.Tasks.Task<AuthorDetailsDto> AuthorsGETAsync(int id);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<AuthorReadOnlyDto> AuthorsGETAsync(int id, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<AuthorDetailsDto> AuthorsGETAsync(int id, System.Threading.CancellationToken cancellationToken);
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -466,7 +466,7 @@ namespace BookStoreApp.Blazor.Server.UI.Services.Base
 
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public System.Threading.Tasks.Task<AuthorReadOnlyDto> AuthorsGETAsync(int id)
+        public System.Threading.Tasks.Task<AuthorDetailsDto> AuthorsGETAsync(int id)
         {
             return AuthorsGETAsync(id, System.Threading.CancellationToken.None);
         }
@@ -474,7 +474,7 @@ namespace BookStoreApp.Blazor.Server.UI.Services.Base
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Success</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<AuthorReadOnlyDto> AuthorsGETAsync(int id, System.Threading.CancellationToken cancellationToken)
+        public async System.Threading.Tasks.Task<AuthorDetailsDto> AuthorsGETAsync(int id, System.Threading.CancellationToken cancellationToken)
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -515,11 +515,12 @@ namespace BookStoreApp.Blazor.Server.UI.Services.Base
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<AuthorReadOnlyDto>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<AuthorDetailsDto>(
+                                response_, headers_, cancellationToken).ConfigureAwait(false);
+
                             if (objectResponse_.Object == null)
-                            {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                            }
+
                             return objectResponse_.Object;
                         }
                         else
@@ -1281,6 +1282,11 @@ namespace BookStoreApp.Blazor.Server.UI.Services.Base
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.6.2.0 (Newtonsoft.Json v13.0.0.0)")]
+
+    public partial class AuthorDetailsDto : AuthorReadOnlyDto
+    {
+        public List<BookReadOnlyDto> Books { get; set; } = new();
+    }
 
     public partial class AuthorUpdateDto
     {
